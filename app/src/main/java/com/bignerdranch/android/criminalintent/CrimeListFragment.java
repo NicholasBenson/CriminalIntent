@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -29,6 +30,8 @@ public class CrimeListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
     private boolean mSubtitleVisible;
+    private TextView mWelcomeView;
+    private Button mAddCrime;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -38,13 +41,39 @@ public class CrimeListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        CrimeLab crimeLab = CrimeLab.get(getActivity());
+        int crimeCount = crimeLab.getCrimes().size();
+
         View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
+        mWelcomeView = (TextView) view.findViewById(R.id.empty_view);
+        mAddCrime = (Button) view.findViewById(R.id.first_thing);
+        mAddCrime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Crime crime = new Crime();
+                CrimeLab.get(getActivity()).addCrime(crime);
+                Intent intent = CrimePagerActivity
+                        .newIntent(getActivity(), crime.getId());
+                startActivity(intent);
+            }
+        });
 
         mCrimeRecyclerView = (RecyclerView) view.findViewById(R.id.crime_recycler_view);
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         if (savedInstanceState != null) {
             mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
+        }
+
+        if (crimeCount == 0) {
+            mCrimeRecyclerView.setVisibility(View.GONE);
+            mWelcomeView.setVisibility(View.VISIBLE);
+            mAddCrime.setVisibility(View.VISIBLE);
+        }
+        else {
+            mCrimeRecyclerView.setVisibility(View.VISIBLE);
+            mWelcomeView.setVisibility(View.GONE);
+            mAddCrime.setVisibility(View.GONE);
         }
 
         updateUI();
@@ -143,7 +172,11 @@ public class CrimeListFragment extends Fragment {
                     itemView.findViewById(R.id.list_item_crime_date_text_view);
             mSolvedCheckBox = (CheckBox)
                     itemView.findViewById(R.id.list_item_crime_solved_check_box);
+
+
+
         }
+
 
         public void bindCrime(Crime crime){
             mCrime = crime;
@@ -174,10 +207,13 @@ public class CrimeListFragment extends Fragment {
             mCrimes = crimes;
         }
 
+
         @Override
         public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             View view = layoutInflater.inflate(R.layout.list_item_crime, parent, false);
+
+
             return new CrimeHolder(view);
         }
 

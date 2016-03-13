@@ -11,6 +11,7 @@
     <string name="subtitle_format">%1$s crimes</string>
     <string name="delete_crime">Delete Crime</string>
     <string name="welcome_view">No crimes yet</string>
+    <string name="first_crime">Add a crime?</string>
     <plurals name="subtitle_plural">
         <item quantity="one">%1$s crime</item>
         <item quantity="other">%1$s crimes</item>
