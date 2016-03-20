@@ -10,6 +10,8 @@ public class Crime {
 
     private UUID mId;
     private String mTitle;
+    private boolean mSolved;
+    private String mSuspect;
 
     public Date getDate() {
         return mDate;
@@ -29,11 +31,21 @@ public class Crime {
         mSolved = solved;
     }
 
-    private boolean mSolved;
+    public String getSuspect() {
+        return mSuspect;
+    }
+
+    public void setSuspect(String suspect){
+        mSuspect = suspect;
+    }
 
     public Crime(){
         // Generate unique modifier
-        mId = UUID.randomUUID();
+        this(UUID.randomUUID());
+    }
+
+    public Crime(UUID id) {
+        mId = id;
         mDate = new Date();
     }
 
