@@ -53,4 +53,7 @@
         android:layout_marginRight="16dp"
         android:text="@string/crime_report_text"/>
 
+    <include
+        layout="@layout/view_camera_and_title"/>
+
 </LinearLayout>
