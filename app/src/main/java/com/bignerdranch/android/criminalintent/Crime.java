@@ -13,6 +13,7 @@ public class Crime {
     private boolean mSolved;
     private String mSuspect;
 
+
     public Date getDate() {
         return mDate;
     }

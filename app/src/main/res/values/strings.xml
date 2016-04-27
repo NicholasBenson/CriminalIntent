@@ -17,6 +17,12 @@
     <string name="crime_report">%1$s!
     The crime was discovered on %2$s. %3$s, and %4$s
     </string>
+    <string-array name="weights_array">
+        <item>OverWeight</item>
+        <item>UnderWeight</item>
+        <item>Neutral</item>
+    </string-array>
+    <string name="select_prompt">Select Type</string>
     <string name="crime_report_solved">The case is Solved</string>
     <string name="crime_report_unsolved">the case is not solved</string>
     <string name="crime_report_no_suspect">there is no suspect</string>
