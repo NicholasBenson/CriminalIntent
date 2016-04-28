@@ -3,19 +3,19 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-    <CheckBox
+    <!--<CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/list_item_crime_solved_check_box"
         android:layout_alignParentRight="true"
-        android:padding="4dp"/>
+        android:padding="4dp"/>-->
 
     <Spinner android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:id="@+id/list_item_spinner"
              android:entries="@array/weights_array"
              android:prompt="@string/select_prompt"
-             android:layout_toLeftOf="@+id/list_item_crime_solved_check_box"
+             android:layout_alignParentRight="true"
         >
     </Spinner>
 
@@ -23,10 +23,10 @@
               android:layout_height="wrap_content"
               android:id="@+id/list_item_edit"
               android:hint="write"
-              android:layout_toLeftOf="@+id/list_item_spinner"
+              android:layout_alignParentLeft="true"
         />
 
-    <TextView
+    <!--<TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/list_item_crime_title_text_view"
@@ -43,7 +43,7 @@
         android:layout_toLeftOf="@id/list_item_crime_solved_check_box"
         android:layout_below="@id/list_item_crime_title_text_view"
         android:padding="4dp"
-        tools:text="Crime Date"/>
+        tools:text="Crime Date"/>-->
 
 </RelativeLayout>
 

@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -156,23 +158,29 @@ public class CrimeListFragment extends Fragment {
     }
 
     private class CrimeHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
+            /*implements View.OnClickListener*/ {
 
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private CheckBox mSolvedCheckBox;
+        private Spinner mSpinner;
+        private EditText mEditText;
         private Crime mCrime;
 
         public CrimeHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
+            //itemView.setOnClickListener(this);
 
-            mTitleTextView = (TextView)
+            /*mTitleTextView = (TextView)
                     itemView.findViewById(R.id.list_item_crime_title_text_view);
             mDateTextView = (TextView)
                     itemView.findViewById(R.id.list_item_crime_date_text_view);
             mSolvedCheckBox = (CheckBox)
-                    itemView.findViewById(R.id.list_item_crime_solved_check_box);
+                    itemView.findViewById(R.id.list_item_crime_solved_check_box);*/
+            mSpinner = (Spinner)
+                    itemView.findViewById(R.id.list_item_spinner);
+            mEditText = (EditText)
+                    itemView.findViewById(R.id.list_item_edit);
 
 
 
@@ -181,7 +189,9 @@ public class CrimeListFragment extends Fragment {
 
         public void bindCrime(Crime crime){
             mCrime = crime;
-            mTitleTextView.setText(mCrime.getTitle());
+            mSpinner.setEnabled(true);
+            mEditText.setText(mCrime.getTitle());
+           /* mTitleTextView.setText(mCrime.getTitle());
             mDateTextView.setText(mCrime.getDate().toString());
             mSolvedCheckBox.setChecked(mCrime.isSolved());
             mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -190,14 +200,14 @@ public class CrimeListFragment extends Fragment {
                     // Set the crime's solved property
                     mCrime.setSolved(isChecked);
                 }
-            });
+            });*/
         }
 
-        @Override
+        /*@Override
         public void onClick(View v){
             Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
             startActivity(intent);
-        }
+        }*/
     }
 
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
