@@ -12,6 +12,9 @@ public class Crime {
     private String mTitle;
     private boolean mSolved;
     private String mSuspect;
+    private boolean mOverWeight;
+    private boolean mUnderWeight;
+    private boolean mNeutral;
 
 
     public Date getDate() {
@@ -30,6 +33,30 @@ public class Crime {
 
     public void setSolved(boolean solved) {
         mSolved = solved;
+    }
+
+    public boolean isNeutral(){
+        return mNeutral;
+    }
+
+    public void setNeutral(boolean neutral){
+        mNeutral = neutral;
+    }
+
+    public boolean isUnderWeight(){
+        return mUnderWeight;
+    }
+
+    public void setUnderWeight(boolean UW){
+        mUnderWeight = UW;
+    }
+
+    public boolean isOverWeight(){
+        return mOverWeight;
+    }
+
+    public void setOverWeight(boolean OW){
+        mOverWeight = OW;
     }
 
     public String getSuspect() {

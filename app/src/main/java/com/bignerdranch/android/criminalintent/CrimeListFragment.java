@@ -192,15 +192,16 @@ public class CrimeListFragment extends Fragment {
             mCrime = crime;
             mSpinner.setEnabled(true);
             mEditText.setText(mCrime.getTitle());
+            mSpinner
             mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (parent.getItemAtPosition(position).toString() == "OverWeight"){
-                        mCrime.setOverWeight();
-                    }else if (parent.getItemAtPosition(position).toString() == "UnderWeight"){
-                        mCrime.setUnderWeight();
-                    }else if (parent.getItemAtPosition(position).toString() == "Neutral"){
-                        mCrime.setNeutral();
+                    if (parent.getItemAtPosition(position).toString().equals("OverWeight")){
+                        mCrime.setOverWeight(true);
+                    }else if (parent.getItemAtPosition(position).toString().equals("UnderWeight")){
+                        mCrime.setUnderWeight(true);
+                    }else if (parent.getItemAtPosition(position).toString().equals("Neutral")){
+                        mCrime.setNeutral(true);
                     }
                 }
 
