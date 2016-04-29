@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -30,6 +31,7 @@ import android.widget.EditText;
 import android.text.format.DateFormat;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import java.io.File;
 import java.util.Date;
@@ -61,6 +63,8 @@ public class CrimeFragment extends android.support.v4.app.Fragment{
     private Button mSuspectButton;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
+    private Spinner mSpinner;
+
 
     public static CrimeFragment newInstance(UUID crimeId){
         Bundle args = new Bundle();
@@ -112,6 +116,24 @@ public class CrimeFragment extends android.support.v4.app.Fragment{
             }
         });
 
+        mSpinner = (Spinner)v.findViewById(R.id.crime_spinner);
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent.getItemAtPosition(position).toString() == "OverWeight"){
+                    mCrime.setOverWeight();
+                }else if (parent.getItemAtPosition(position).toString() == "UnderWeight"){
+                    mCrime.setUnderWeight();
+                }else if (parent.getItemAtPosition(position).toString() == "Neutral"){
+                    mCrime.setNeutral();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
 

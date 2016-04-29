@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -191,6 +192,23 @@ public class CrimeListFragment extends Fragment {
             mCrime = crime;
             mSpinner.setEnabled(true);
             mEditText.setText(mCrime.getTitle());
+            mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (parent.getItemAtPosition(position).toString() == "OverWeight"){
+                        mCrime.setOverWeight();
+                    }else if (parent.getItemAtPosition(position).toString() == "UnderWeight"){
+                        mCrime.setUnderWeight();
+                    }else if (parent.getItemAtPosition(position).toString() == "Neutral"){
+                        mCrime.setNeutral();
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
            /* mTitleTextView.setText(mCrime.getTitle());
             mDateTextView.setText(mCrime.getDate().toString());
             mSolvedCheckBox.setChecked(mCrime.isSolved());

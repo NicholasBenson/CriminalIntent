@@ -37,6 +37,16 @@
         android:layout_marginRight="16dp"
         android:text="@string/crime_solved_label"/>
 
+    <Spinner android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:id="@+id/crime_spinner"
+             android:entries="@array/weights_array"
+             android:prompt="@string/select_prompt"
+             android:layout_marginLeft="16dp"
+             android:layout_marginRight="16dp"
+        >
+    </Spinner>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,13 +55,13 @@
         android:layout_marginRight="16dp"
         android:text="@string/crime_suspect_text"/>
 
-    <Button
+    <!--<Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/crime_report"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:text="@string/crime_report_text"/>
+        android:text="@string/crime_report_text"/>-->
 
     <include
         layout="@layout/view_camera_and_title"/>
