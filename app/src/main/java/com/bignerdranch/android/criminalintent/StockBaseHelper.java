@@ -23,7 +23,7 @@ public class StockBaseHelper extends SQLiteOpenHelper {
         " _id integer primary key autoincrement, " +
         StockTable.Cols.UUID + ", " +
         StockTable.Cols.TITLE + ", " +
-        //StockTable.Cols.WEIGHT + ", " +
+        StockTable.Cols.WEIGHT + ", " +
         StockTable.Cols.OVERWEIGHT + ", " +
         StockTable.Cols.UNDERWEIGHT + "," +
         StockTable.Cols.NEUTRAL + ")");

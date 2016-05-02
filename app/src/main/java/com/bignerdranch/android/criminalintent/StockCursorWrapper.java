@@ -15,28 +15,17 @@ public class StockCursorWrapper extends CursorWrapper {
     }
 
     public Stock getStock() {
-        //String uuidString = getString(getColumnIndex(StockDbSchema.StockTable.Cols.UUID));
-        /*String title = getString(getColumnIndex(StockDbSchema.StockTable.Cols.TITLE));
-        long date = getLong(getColumnIndex(StockDbSchema.StockTable.Cols.DATE));
-        int isSolved = getInt(getColumnIndex(StockDbSchema.StockTable.Cols.SOLVED));
-        String suspect = getString(getColumnIndex(StockDbSchema.StockTable.Cols.SUSPECT));*/
         String uuidString = getString(getColumnIndex(StockDbSchema.StockTable.Cols.UUID));
         String title = getString(getColumnIndex(StockDbSchema.StockTable.Cols.TITLE));
-        //int weight = getInt(getColumnIndex(StockDbSchema.StockTable.Cols.WEIGHT));
+        int weight = getInt(getColumnIndex(StockDbSchema.StockTable.Cols.WEIGHT));
         int overWeight = getInt(getColumnIndex(StockDbSchema.StockTable.Cols.OVERWEIGHT));
         int underWeight = getInt(getColumnIndex(StockDbSchema.StockTable.Cols.UNDERWEIGHT));
         int neutral = getInt(getColumnIndex(StockDbSchema.StockTable.Cols.NEUTRAL));
 
         Stock stock = new Stock(UUID.fromString(uuidString));
         stock.setTitle(title);
-        stock.setNeutral(true);
+        stock.setWeight(weight);
 
-        /*Stock crime = new Stock(UUID.fromString(uuidString));
-
-        crime.setTitle(title);
-        crime.setDate(new Date(date));
-        crime.setSolved(isSolved != 0);
-        crime.setSuspect(suspect);*/
         return stock;
 
     }

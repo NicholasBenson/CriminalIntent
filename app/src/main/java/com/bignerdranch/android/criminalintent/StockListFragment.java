@@ -98,7 +98,7 @@ public class StockListFragment extends Fragment {
         outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
         //mStocks = StockLab.get(getActivity()).getStocks();
         int[] spinners = new int[mStocks.size()];
-        for (int i = 0; i < mStocks.size(); i++) {
+        for (int i = 0; i < mStocks.size()-1; i++) {
             spinners[i] = (mStocks.get(i).getWeight());
         }
         outState.putIntArray(SPIN_KEY, spinners);
@@ -190,73 +190,16 @@ public class StockListFragment extends Fragment {
 
             mTitleTextView = (TextView)
                     itemView.findViewById(R.id.list_item_stock_title_text_view);
-            /*mDateTextView = (TextView)
-                    itemView.findViewById(R.id.list_item_stock_date_text_view);
-            mSolvedCheckBox = (CheckBox)
-                    itemView.findViewById(R.id.list_item_stock_solved_check_box);*/
             mSpinner = (Spinner)
                     itemView.findViewById(R.id.list_item_spinner);
-            /*if (mStock.isOverWeight()) {
-                mSpinner.setSelection(0);
-            } else if (mStock.isNeutral()) {
-                mSpinner.setSelection(1);
-            } else if (mStock.isUnderWeight()) {
-                mSpinner.setSelection(2);
-            }*/
-            /*mSpinner.setSelection(mStock.getWeight());
-            mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                public void onItemSelected(AdapterView<?> parent, View v, int pos, long id) {
-                    Object item = parent.getItemAtPosition(pos);
-                    mStock.setWeight(pos);
-                    mStock.setOverWeight(mStock.isOverWeight());
-                    mStock.setNeutral(mStock.isNeutral());
-                    mStock.setUnderWeight(mStock.isUnderWeight());
-                    StockLab.get(getActivity()).updateStock(mStock);
-                }
-
-                public void onNothingSelected(AdapterView<?> parent) {
-                    return;
-                }
-            });*/
 
         }
 
-            /*mStock.setOverWeight(mStock.isOverWeight());
-            mStock.setNeutral(mStock.isNeutral());
-            mStock.setUnderWeight(mStock.isUnderWeight());*/
-
-
-            /*mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (parent.getSelectedItem().toString().equalsIgnoreCase("OverWeight")) {
-                        mStock.setOverWeight(true);
-                    } else if (parent.getSelectedItem().toString().equalsIgnoreCase("UnderWeight")) {
-                        mStock.setUnderWeight(true);
-                    } else if (parent.getSelectedItem().toString().equalsIgnoreCase("Neutral")) {
-                        mStock.setNeutral(true);
-                    }
-                }
-
-
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-            /*mEditText = (EditText)
-                    itemView.findViewById(R.id.list_item_edit);*/
-
-
-
-        //}
 
 
         public void bindStock(Stock stock){
             mStock = stock;
 
-            //mEditText.setText(mStock.getTitle());
 
 
             mTitleTextView.setText(mStock.getTitle());
@@ -266,9 +209,6 @@ public class StockListFragment extends Fragment {
                 public void onItemSelected(AdapterView<?> parent, View v, int pos, long id) {
                     Object item = parent.getItemAtPosition(pos);
                     mStock.setWeight(pos);
-                    /*mStock.setOverWeight(mStock.isOverWeight());
-                    mStock.setNeutral(mStock.isNeutral());
-                    mStock.setUnderWeight(mStock.isUnderWeight());*/
                     StockLab.get(getActivity()).updateStock(mStock);
                 }
 
@@ -276,24 +216,10 @@ public class StockListFragment extends Fragment {
                     return;
                 }
             });
-            //mDateTextView.setText(mStock.getDate().toString());
-            /*mSolvedCheckBox.setChecked(mStock.isSolved());
-            mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    // Set the stock's solved property
-                    mStock.setSolved(isChecked);
-                }
-            });*/
 
 
         }
 
-        /*@Override
-        public void onClick(View v){
-            Intent intent = StockPagerActivity.newIntent(getActivity(), mStock.getId());
-            startActivity(intent);
-        }*/
     }
 
     private class StockAdapter extends RecyclerView.Adapter<StockHolder> {

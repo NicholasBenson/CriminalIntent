@@ -78,16 +78,6 @@ public class StockLab {
         }
     }
 
-    public File getPhotoFile(Stock stock) {
-        File externalFilesDir = mContext
-                .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-
-        if (externalFilesDir == null){
-            return null;
-        }
-
-        return new File(externalFilesDir, stock.getPhotoFilename());
-    }
 
     public void updateStock(Stock stock){
         String uuidString = stock.getId().toString();
@@ -102,14 +92,10 @@ public class StockLab {
         ContentValues values = new ContentValues();
         values.put(StockDbSchema.StockTable.Cols.UUID, stock.getId().toString());
         values.put(StockDbSchema.StockTable.Cols.TITLE, stock.getTitle());
-        //values.put(StockDbSchema.StockTable.Cols.TICKER, stock.ge);
-        //values.put(StockDbSchema.StockTable.Cols.WEIGHT, stock.getWeight());
+        values.put(StockDbSchema.StockTable.Cols.WEIGHT, stock.getWeight());
         values.put(StockDbSchema.StockTable.Cols.OVERWEIGHT, stock.isOverWeight() ? 1 : 0);
         values.put(StockDbSchema.StockTable.Cols.UNDERWEIGHT, stock.isUnderWeight() ? 1 : 0);
         values.put(StockDbSchema.StockTable.Cols.NEUTRAL, stock.isNeutral() ? 1 : 0);
-        /*values.put(StockDbSchema.StockTable.Cols.DATE, stock.getDate().getTime());
-        values.put(StockDbSchema.StockTable.Cols.SOLVED, stock.isSolved() ? 1 : 0);
-        values.put(StockDbSchema.StockTable.Cols.SUSPECT, stock.getSuspect());*/
 
         return values;
     }
