@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,15 +15,15 @@ import java.util.UUID;
 /**
  * Created by nbens_000 on 3/8/2016.
  */
-public class CrimePagerActivity extends AppCompatActivity {
+public class StockPagerActivity extends AppCompatActivity {
     private static final String EXTRA_CRIME_ID =
             "com.bignerdranch.android.criminalintent.crime_id";
 
     private ViewPager mViewPager;
-    private List<Crime> mCrimes;
+    private List<Stock> mStocks;
 
     public static Intent newIntent(Context packageContext, UUID crimeId){
-        Intent intent = new Intent(packageContext, CrimePagerActivity.class);
+        Intent intent = new Intent(packageContext, StockPagerActivity.class);
         intent.putExtra(EXTRA_CRIME_ID, crimeId);
         return intent;
     }
@@ -32,29 +31,29 @@ public class CrimePagerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crime_pager);
+        setContentView(R.layout.activity_stock_pager);
 
         UUID crimeId = (UUID) getIntent().getSerializableExtra(EXTRA_CRIME_ID);
 
         mViewPager = (ViewPager) findViewById(R.id.activity_crime_pager_view_pager);
 
-        mCrimes = CrimeLab.get(this).getCrimes();
+        mStocks = StockLab.get(this).getStocks();
         FragmentManager fragmentManager = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
             @Override
             public Fragment getItem(int position) {
-                Crime crime = mCrimes.get(position);
-                return CrimeFragment.newInstance(crime.getId());
+                Stock stock = mStocks.get(position);
+                return StockFragment.newInstance(stock.getId());
             }
 
             @Override
             public int getCount() {
-                return mCrimes.size();
+                return mStocks.size();
             }
         });
 
-        for (int i = 0; i < mCrimes.size(); i++) {
-            if (mCrimes.get(i).getId().equals(crimeId)){
+        for (int i = 0; i < mStocks.size(); i++) {
+            if (mStocks.get(i).getId().equals(crimeId)){
                 mViewPager.setCurrentItem(i);
                 break;
             }

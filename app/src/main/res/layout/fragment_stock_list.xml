@@ -8,7 +8,7 @@
 
 <android.support.v7.widget.RecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/crime_recycler_view"
+    android:id="@+id/stock_recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"/>
 
@@ -29,7 +29,7 @@
         android:id="@+id/first_thing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/first_crime" />
+        android:text="@string/first_stock" />
 
 
     </RelativeLayout>

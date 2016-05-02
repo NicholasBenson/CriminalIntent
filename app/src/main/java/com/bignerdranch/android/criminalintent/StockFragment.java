@@ -1,19 +1,6 @@
 package com.bignerdranch.android.criminalintent;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.provider.MediaStore;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -22,29 +9,22 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.text.format.DateFormat;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
 import java.io.File;
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
-
-import static android.text.format.DateFormat.getLongDateFormat;
 
 
 /**
  * Created by nbens_000 on 2/23/2016.
  */
-public class CrimeFragment extends android.support.v4.app.Fragment{
+public class StockFragment extends android.support.v4.app.Fragment{
 
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
@@ -54,7 +34,7 @@ public class CrimeFragment extends android.support.v4.app.Fragment{
     private static final int REQUEST_CONTACT = 1;
     private static final int REQUEST_PHOTO= 2;
 
-    private Crime mCrime;
+    private Stock mStock;
     private File mPhotoFile;
     private EditText mTitleField;
     private Button mDateButton;
@@ -66,11 +46,11 @@ public class CrimeFragment extends android.support.v4.app.Fragment{
     private Spinner mSpinner;
 
 
-    public static CrimeFragment newInstance(UUID crimeId){
+    public static StockFragment newInstance(UUID crimeId){
         Bundle args = new Bundle();
         args.putSerializable(ARG_CRIME_ID, crimeId);
 
-        CrimeFragment fragment = new CrimeFragment();
+        StockFragment fragment = new StockFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -79,8 +59,9 @@ public class CrimeFragment extends android.support.v4.app.Fragment{
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
-        mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
-        mPhotoFile = CrimeLab.get(getActivity()).getPhotoFile(mCrime);
+        mStock = StockLab.get(getActivity()).getStock(crimeId);
+        //mStock.setNeutral(true);
+        //mPhotoFile = StockLab.get(getActivity()).getPhotoFile(mStock);
         setHasOptionsMenu(true);
     }
 
@@ -88,16 +69,16 @@ public class CrimeFragment extends android.support.v4.app.Fragment{
     public void onPause(){
         super.onPause();
 
-        CrimeLab.get(getActivity())
-                .updateCrime(mCrime);
+        StockLab.get(getActivity())
+                .updateStock(mStock);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.fragment_crime, container, false);
+        View v = inflater.inflate(R.layout.fragment_stock, container, false);
 
-        mTitleField = (EditText)v.findViewById(R.id.crime_title);
-        mTitleField.setText(mCrime.getTitle());
+        mTitleField = (EditText)v.findViewById(R.id.stock_title);
+        mTitleField.setText(mStock.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -106,7 +87,7 @@ public class CrimeFragment extends android.support.v4.app.Fragment{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mCrime.setTitle(s.toString());
+                mStock.setTitle(s.toString());
 
             }
 
@@ -116,52 +97,57 @@ public class CrimeFragment extends android.support.v4.app.Fragment{
             }
         });
 
-        mSpinner = (Spinner)v.findViewById(R.id.crime_spinner);
+        mSpinner = (Spinner)v.findViewById(R.id.stock_spinner);
+
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position).toString().equals("OverWeight")){
-                    mCrime.setOverWeight(true);
-                    //parent.setSelection(0);
-                }else if (parent.getItemAtPosition(position).toString().equals("UnderWeight")){
-                    mCrime.setUnderWeight(true);
-                }else if (parent.getItemAtPosition(position).toString().equals("Neutral")){
-                    mCrime.setNeutral(true);
-                }
+                Object item = parent.getItemAtPosition(position);
+                mStock.setWeight(position);
+                StockLab.get(getActivity()).updateStock(mStock);
             }
+                /*if (parent.getSelectedItem().toString().equals("OverWeight")){
+                    mStock.setOverWeight(true);
+                    //parent.setSelection(0);
+                }else if (parent.getSelectedItem().toString().equals("UnderWeight")){
+                    mStock.setUnderWeight(true);
+                }else if (parent.getSelectedItem().toString().equals("Neutral")){
+                    mStock.setNeutral(true);
+                }*/
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                return;
             }
         });
 
 
 
-        mDateButton = (Button)v.findViewById(R.id.crime_date);
-        updateDate(setLongFormat(mCrime.getDate()).toString());
+        /*mDateButton = (Button)v.findViewById(R.id.crime_date);
+        updateDate(setLongFormat(mStock.getDate()).toString());
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager manager = getFragmentManager();
                 DatePickerFragment dialog = DatePickerFragment
-                        .newInstance(mCrime.getDate());
-                dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
+                        .newInstance(mStock.getDate());
+                dialog.setTargetFragment(StockFragment.this, REQUEST_DATE);
                 dialog.show(manager, DIALOG_DATE);
             }
-        });
+        });*/
 
-        mSolvedCheckBox = (CheckBox)v.findViewById(R.id.crime_solved);
-        mSolvedCheckBox.setChecked(mCrime.isSolved());
+        /*mSolvedCheckBox = (CheckBox)v.findViewById(R.id.crime_solved);
+        mSolvedCheckBox.setChecked(mStock.isSolved());
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Set the crime's solved property
-                mCrime.setSolved(isChecked);
+                mStock.setSolved(isChecked);
             }
-        });
+        });*/
 
-        mReportButton = (Button) v.findViewById(R.id.crime_report);
+        /*mReportButton = (Button) v.findViewById(R.id.crime_report);
         mReportButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i = new Intent(Intent.ACTION_SEND);
@@ -172,29 +158,29 @@ public class CrimeFragment extends android.support.v4.app.Fragment{
                 i = Intent.createChooser(i, getString(R.string.send_report));
                 startActivity(i);
             }
-        });
+        });*/
 
-        final Intent pickContact = new Intent(Intent.ACTION_PICK,
-                ContactsContract.Contacts.CONTENT_URI);
+        //final Intent pickContact = new Intent(Intent.ACTION_PICK,
+          //      ContactsContract.Contacts.CONTENT_URI);
         //pickContact.addCategory(Intent.CATEGORY_HOME);
-        mSuspectButton = (Button) v.findViewById(R.id.crime_suspect);
+        /*mSuspectButton = (Button) v.findViewById(R.id.crime_suspect);
         mSuspectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
                 startActivityForResult(pickContact, REQUEST_CONTACT);
             }
         });
 
-        if (mCrime.getSuspect() != null) {
-            mSuspectButton.setText(mCrime.getSuspect());
-        }
+        if (mStock.getSuspect() != null) {
+            mSuspectButton.setText(mStock.getSuspect());
+        }*/
 
-        PackageManager packageManager = getActivity().getPackageManager();
+        /*PackageManager packageManager = getActivity().getPackageManager();
         if (packageManager.resolveActivity(pickContact,
                 PackageManager.MATCH_DEFAULT_ONLY) == null) {
             mSuspectButton.setEnabled(false);
-        }
+        }*/
 
-        mPhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
+        /*mPhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         boolean canTakePhoto = mPhotoFile != null &&
@@ -233,28 +219,28 @@ public class CrimeFragment extends android.support.v4.app.Fragment{
                     dialog.show(manager, ZOOMED_IMAGE);
                 }
             }
-        });
+        });*/
 
         return v;
     }
 
 
-    private void updateDate(String text) {
+    /*private void updateDate(String text) {
         mDateButton.setText(text);
     }
 
     private String getCrimeReport(){
         String solvedString = null;
-        if (mCrime.isSolved()) {
+        if (mStock.isSolved()) {
             solvedString = getString(R.string.crime_report_solved);
         }else{
             solvedString = getString(R.string.crime_report_unsolved);
         }
 
         String dateFormat = "EEE, MMM dd";
-        String dateString = DateFormat.format(dateFormat, mCrime.getDate()).toString();
+        String dateString = DateFormat.format(dateFormat, mStock.getDate()).toString();
 
-        String suspect = mCrime.getSuspect();
+        String suspect = mStock.getSuspect();
         if (suspect == null){
             suspect = getString(R.string.crime_report_no_suspect);
         }else{
@@ -262,7 +248,7 @@ public class CrimeFragment extends android.support.v4.app.Fragment{
         }
 
         String report = getString(R.string.crime_report,
-                mCrime.getTitle(), dateString, solvedString, suspect);
+                mStock.getTitle(), dateString, solvedString, suspect);
 
         return report;
     }
@@ -275,9 +261,9 @@ public class CrimeFragment extends android.support.v4.app.Fragment{
                     mPhotoFile.getPath(), getActivity());
             mPhotoView.setImageBitmap(bitmap);
         }
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (resultCode != Activity.RESULT_OK){
             return;
@@ -285,8 +271,8 @@ public class CrimeFragment extends android.support.v4.app.Fragment{
         if (requestCode == REQUEST_DATE){
             Date date = (Date) data
                     .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            mCrime.setDate(date);
-            updateDate(mCrime.getDate().toString());
+            mStock.setDate(date);
+            updateDate(mStock.getDate().toString());
         } else if (requestCode == REQUEST_CONTACT && data != null){
             Uri contactURI = data.getData();
             // Specify which fields you want your query to return values for
@@ -307,7 +293,7 @@ public class CrimeFragment extends android.support.v4.app.Fragment{
                 //that is your suspects name.
                 c.moveToFirst();
                 String suspect = c.getString(0);
-                mCrime.setSuspect(suspect);
+                mStock.setSuspect(suspect);
                 mSuspectButton.setText(suspect);
             }finally{
                 c.close();
@@ -320,19 +306,19 @@ public class CrimeFragment extends android.support.v4.app.Fragment{
     private String setLongFormat (Date date){
         java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL);
         return dateFormat.format(date);
-    }
+    }*/
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_crime_menu, menu);
+        inflater.inflate(R.menu.fragment_stock_menu, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
-            case R.id.menu_item_delete_crime:
-                CrimeLab.get(getActivity()).deleteCrime(mCrime);
+            case R.id.menu_item_delete_stock:
+                StockLab.get(getActivity()).deleteStock(mStock);
                 getActivity().finish();
                 return true;
             default:
